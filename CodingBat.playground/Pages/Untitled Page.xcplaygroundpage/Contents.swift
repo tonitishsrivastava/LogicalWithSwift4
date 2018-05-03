@@ -286,15 +286,154 @@ func countXX(word: String) -> Int{
     for char in word {
         newWord = newWord + String(char)
         if newWord.count == 2 {
-            if newWord.contains("xx") {
+            let wordPrefix = newWord.prefix(2)
+            if wordPrefix.contains("xx") {
                 count = count + 1
-                newWord = String(newWord.dropFirst())
             }
+            newWord = String(newWord.dropFirst())
         }
     }
     return count
 }
 
-print(countXX(word: "abcxx"))
+print(countXX(word: "abcxxx"))
+
+
+//Given a string, return true if the first instance of "x" in the string is immediately followed by another "x".
+//
+//
+//doubleX("axxbb") → true
+//doubleX("axaxax") → false
+//doubleX("xxxxx") → true
+
+func doubleX(word: String) -> Bool{
+    var xWord = ""
+    var xxWord = ""
+    if !word.contains("x") || word.count <= 1{
+        return false
+    }else{
+        for char in word {
+            if char == "x" && xWord != "x"{
+                xWord = "x"
+            }else if (xWord == "x" && char == "x"){
+                xxWord = "x"
+            }else if(xWord == "x" && char != "x"){
+                if xxWord == xWord {
+                    xxWord = ""
+                    xWord = ""
+                }else{
+                    return false
+                }
+            }
+        }
+        if xxWord != xWord {
+            return false
+        }
+    }
+    return true
+}
+
+print(doubleX(word: "xaxx"))
+
+//Given a string, return a new string made of every other char starting with the first, so "Hello" yields "Hlo".
+//
+//
+//stringBits("Hello") → "Hlo"
+//stringBits("Hi") → "H"
+//stringBits("Heeololeo") → "Hello"
+
+func stringBits(word: String) -> String{
+    var count = 0
+    var newWord = ""
+    for char in word {
+        if count%2==0 {
+            newWord = newWord + String(char)
+        }
+        count = count + 1
+    }
+    return newWord
+}
+
+print(stringBits(word: "Heeololeo"))
+
+//Given a non-empty string like "Code" return a string like "CCoCodCode".
+//
+//stringSplosion("Code") → "CCoCodCode"
+//stringSplosion("abc") → "aababc"
+//stringSplosion("ab") → "aab"
+
+func stringSplosion(word: String) -> String{
+    var newWord = ""
+    var helperWord = ""
+    
+    for char in word {
+        helperWord += String(char)
+        newWord += helperWord
+    }
+    return newWord
+}
+
+print(stringSplosion(word: "fade"))
+
+//Given a string, return the count of the number of times that a substring length 2 appears in the string and also as the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
+//
+//
+//last2("hixxhi") → 1
+//last2("xaxxaxaxx") → 1
+//last2("axxxaaxx") → 2
+
+func last2(word: String) -> Int{
+    var count = 0
+    var newWord = ""
+    let wordsuffix = String(word.suffix(2))
+    if word.count<=2 {
+        return 0
+    }else{
+        for char in word {
+            newWord = newWord + String(char)
+            if newWord.count == 2 {
+                let wordPrefix = newWord.prefix(2)
+                if wordPrefix.contains(wordsuffix) {
+                    count = count + 1
+                }
+                newWord = String(newWord.dropFirst())
+            }
+        }
+    }
+    return count-1
+}
+
+print(last2(word: ""))
+
+
+//Given an array of ints, return the number of 9's in the array.
+//
+//arrayCount9([1, 2, 9]) → 1
+//arrayCount9([1, 9, 9]) → 2
+//arrayCount9([1, 9, 9, 3, 9]) → 3
+
+func arrayCount9(numberArray: [Int]) -> Int{
+    var count = 0
+    for element in numberArray {
+        if element == 9 {
+            count += 1
+        }
+    }
+    return count
+}
+
+print(arrayCount9(numberArray: [1, 2, 9]))
+
+
+//Given an array of ints, return true if one of the first 4 elements in the array is a 9. The array length may be less than 4.
+//
+//arrayFront9([1, 2, 9, 3, 4]) → true
+//arrayFront9([1, 2, 3, 4, 9]) → false
+//arrayFront9([1, 2, 3, 4, 5]) → false
+
+func arrayFront9(numberArray: [Int]){
+    
+}
+
 
 
