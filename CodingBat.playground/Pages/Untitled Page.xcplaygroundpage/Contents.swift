@@ -431,9 +431,160 @@ print(arrayCount9(numberArray: [1, 2, 9]))
 //arrayFront9([1, 2, 3, 4, 9]) → false
 //arrayFront9([1, 2, 3, 4, 5]) → false
 
-func arrayFront9(numberArray: [Int]){
+func arrayFront9(numberArray: [Int]) -> Bool{
+    if numberArray.count < 4 {
+        for element in numberArray {
+            if element == 9 {
+                return true
+            }
+        }
+    }else{
+        for element in 0..<4 {
+            if numberArray[element] == 9 {
+                return true
+            }
+        }
+    }
+    return false
+}
+
+print(arrayFront9(numberArray: [1, 2, 3, 4, 9]))
+
+
+
+
+//Given an array of ints, return true if the sequence of numbers 1, 2, 3 appears in the array somewhere.
+//
+//array123([1, 1, 2, 3, 1]) → true
+//array123([1, 1, 2, 4, 1]) → false
+//array123([1, 1, 2, 1, 2, 3]) → true
+
+
+func array123(numberArray: [Int]) -> Bool{
+    for index in 0..<numberArray.count {
+        if ((numberArray[index] == 1) && (index+2 < numberArray.count)) {
+            if (numberArray[index+1] == 2) {
+                if (numberArray[index+2] == 3) {
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
+
+print(array123(numberArray: [1, 1, 2, 3, 1]))
+
+
+//Given 2 strings, a and b, return the number of the positions where they contain the same length 2 substring. So "xxcaazz" and "xxbaaz" yields 3, since the "xx", "aa", and "az" substrings appear in the same place in both strings.
+//
+//stringMatch("xxcaazz", "xxbaaz") → 3
+//stringMatch("abc", "abc") → 2
+//stringMatch("abc", "axc") → 0
+
+func stringMatch(word1 :String , word2 :String) -> Int{
+    var count = 0
+    var newWord1 = word1
+    var newWord2 = word2
+    for _ in 0 ... word2.count-2{
+        let strComp = newWord1.prefix(2)
+        let strToComp = newWord2.prefix(2)
+        if strComp == strToComp {
+            count = count + 1
+        }
+        newWord2 = String(newWord2.dropFirst())
+        newWord1 = String(newWord1.dropFirst())
+    }
     
+    return count
+}
+
+print(stringMatch(word1: "iaxxai", word2: "aaxxaaxx"))
+
+
+
+//Given a string, return a version where all the "x" have been removed. Except an "x" at the very start or end should not be removed.
+//
+//
+//stringX("xxHxix") → "xHix"
+//stringX("abxxxcd") → "abcd"
+//stringX("xabxxxcdx") → "xabcdx"
+
+
+func stringX(word : String) -> String{
+    var newWord = ""
+    if word.count > 1{
+        if word.first == "x" {
+            newWord = newWord + String(describing: word.first!)
+        }
+        for character in word {
+            if character != "x" {
+                newWord = newWord + String(character)
+            }
+        }
+        if word.last == "x" {
+            newWord = newWord + String(describing: word.last!)
+        }
+    }else{
+        newWord = newWord + word
+    }
+    
+    return newWord
+}
+
+print(stringX(word: "xxHxix"))
+
+
+
+//Given a string, return a string made of the chars at indexes 0,1, 4,5, 8,9 ... so "kittens" yields "kien".
+//
+//
+//altPairs("kitten") → "kien"
+//altPairs("Chocolate") → "Chole"
+//altPairs("CodingHorror") → "Congrr"
+
+
+
+func altPairs(word : String) -> String{
+    var word1 = word
+    var newWord = ""
+    var count = 0
+    for _ in 0...word.count-1 {
+        if count == 0 || count == 1 {
+            newWord = newWord + String(describing: word1.first!)
+        }
+        if count == 3 {
+            count = -1
+        }
+        count = count + 1
+        word1 = String(word1.dropFirst())
+    }
+    
+    return newWord
 }
 
 
+print(altPairs(word: "kitten"))
+
+
+//Suppose the string "yak" is unlucky. Given a string, return a version where all the "yak" are removed, but the "a" can be any char. The "yak" strings will not overlap.
+//
+//
+//stringYak("yakpak") → "pak"
+//stringYak("pakyak") → "pak"
+//stringYak("yak123ya") → "123ya"
+
+
+func stringYak(word : String) -> String{
+    var newWord = ""
+    if word.contains("yak") {
+        newWord = newWord + word.replacingOccurrences(of: "yak", with: "")
+    }else{
+        newWord = word
+    }
+    
+    return newWord
+}
+
+print(stringYak(word: "xxxyakyyyakzzz"))
 
